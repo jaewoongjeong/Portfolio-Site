@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{ object.place }}{% endblock %}
+
+
+{% block django_load %}
+    {% load taggit_templatetags2_tags %}
+{% endblock %}
+
+
+{% block extra-style %}
+    <style>
+        .main-post{
+            padding-top: 60px;
+        }
+
+        .main-post li{
+            list-style-type: '☞ ';
+        }
+    </style>
+{% endblock %}
+
+
+
+{% block extra-script %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js" integrity="sha512-JpMCZgesTWh1iu/8ujURbwkJBgbgFWe3sTNCHdIuEvPwZuuN0nTUr2yawXahpgdEK7FOZUlW254Rp7AyDYJdjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.css" integrity="sha512-rhyvr2/tBAldorgOWCoOLTHUZ8QuaUPa8w70DzMkOtWg6AZZCeVVPCJ1YuuTdDDgPdExqSsAeKxmt7TKHhOJqw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/theme/blackboard.css" integrity="sha512-QwUJIP7RKfHOYgmO3NyYuYcNwe/hW03GxXB2y16cBUlIbAac/WY9bwEKXdweExXZ6hMldLzd9QYGSp4AavmbWg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!---
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.20.0/codemirror.css">
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/4.20.0/theme/monokai.css">
+
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script>
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css" rel="stylesheet">
+    --->
+{% endblock %}
+
+
+{% block content %}
+    <div class="container-md p-5 my-5 border border-5 main-post" style="font-family: 'Times New Roman'">
+        <h1 style="text-align: center; font-weight: bold; font-style: italic;">{{ object.place }}</h1>
+
+        <div class="pt-5 px-5 details">
+            <span style="text-align: left; font-weight: bold;">
+                {{ object.position }}
+            </span>
+            <span style="float: right; font-weight: bold;">
+                {% if object.start_date|date:"F Y" == object.end_date|date:"F Y" %}
+                    {{ object.start_date|date:"F Y" }}
+                {% else %}
+                    {{ object.start_date|date:"F Y" }} ~ {{ object.end_date|date:"F Y" }}
+                {% endif %}
+            </span>
+        </div>
+
+        <p>{{ object.content|safe|linebreaks }}</p>
+
+        <br>
+
+        <div class="container-md p-3 border border-3 tags" style="width: 50%">
+            <div class="col text-center">
+                <i class="fas fa-tags"></i>
+                {% get_tags_for_object object as "tags" %}
+                {% for tag in tags %}
+                    <a class="tags" href="{% url 'experiences:tagged_list' tag.name %}">{{ tag.slug }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="empty">
+        <br>
+    </div>
+
+{% endblock %}

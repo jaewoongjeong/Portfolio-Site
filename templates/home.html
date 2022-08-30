@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block django_load %}
+    {% load taggit_templatetags2_tags %}
+{% endblock %}
+
+
+
+{% block extra-style %}
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .main{
+            height: 100%;
+        }
+
+        .bg {
+            /* The image used */
+            background-image: url("{% static 'img/bg1.jpg' %}");
+
+            /* Full height */
+            height: 100%;
+
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        #profile, #tag-graphs, #timeline{
+            font-family: "Times New Roman";
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/cover.css' %}">
+    <link rel="stylesheet" href="{% static 'css/timeline.css' %}">
+{% endblock %}
+
+
+
+{% block extra-script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="main">
+        <div id="background" class="bg mb-5">
+            <div id="bg_text" style="padding: 150px; color: lightgray; font-size: x-large; font-family: Serif";>
+                <i>Because I have lots to offer in this data-driven world</i>
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <section id="profile" class="container marketing pt-5">
+            <div class="row featurette">
+                <div class="col-md-5 order-md-1">
+                    <img src="{% static 'img/profile.jpg' %}" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500"/>
+                </div>
+
+                <div class="col-md-7 order-md-2">
+                    <h5 class="featurette-heading" style="font-family: Serif">Jaewoong JEONG
+                        <span style="font-size: medium; font-style: italic">(정재웅, ジョンジェウン)</span>
+                    </h5>
+
+                    <br>
+
+                    <div id="university" style="font-family: Serif">
+                        <span style="text-align: left;">
+                            <i class="fas fa-university"></i>
+                            <a href="https://www.waseda.jp/top/en/">Waseda University</a>
+                            <span style="float: right;">
+                                Tokyo, Japan
+                            </span>
+                        </span>
+                        <br>
+                        <span style="text-align: left;">
+                            <i>B.S. in Computer Science</i>
+                            <span style="float: right;">
+                                <i>2017/09 ~</i>
+                            </span>
+                        </span>
+                    </div>
+
+                    <br>
+
+                    <div id="highschool" style="font-family: Serif">
+                        <span style="text-align: left;">
+                            <i class="fas fa-school"></i>
+                            <a href="https://www.tisb.org/">The International School Bangalore</a>
+                            <span style="float: right;">
+                                Bangalore, India
+                            </span>
+                        </span>
+                        <br>
+                        <span style="text-align: left;">
+                            <i>IGCSE, IB Diploma</i>
+                            <span style="float: right;">
+                                <i>2011/01 ~ 2017/05</i>
+                            </span>
+                        </span>
+                    </div>
+
+                    <br>
+
+                    <div id="skills">
+                        <i class="fas fa-laptop-code"></i>
+                        <span style="font-weight: bold; font-style: italic;">Skills</span>
+                        <br>
+                        <i class="fas fa-tags"></i>
+                        <span style="text-align: left;">
+                            {% for tag in tags %}
+                                {% with list='python mysql javascript java github qgis mongodb' %}
+                                    {% if tag.name in list.split %}
+                                        <a class="tags" href="{% url 'experiences:tagged_list' tag.name %}">{{ tag }}</a>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endfor %}
+                        </span>
+                        <br>
+                        <i class="fas fa-tags"></i>
+                        <span>
+                            {% for tag in tags %}
+                                {% with list='python mysql javascript java github qgis mongodb' %}
+                                    {% if tag.name not in list.split %}
+                                        <a class="tags" href="{% url 'experiences:tagged_list' tag.name %}">{{ tag }}</a>
+                                    {% endif %}
+                                {% endwith %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="featurette-divider">
+
+        <div id="tag-graphs" class="container">
+            <h2 class="m-3" style="text-align: center; color: grey; font-style: italic;">Skills Histogram</h2>
+            <br>
+            <div class="row m-3">
+                <canvas id="myChart1"></canvas>
+                <!---
+                <div class="col-2"></div>
+                <div class="col-6" style="height:50vh; width:60vw;">
+                    <canvas id="myChart1"></canvas>
+                </div>
+                --->
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <section id="timeline" class="timeline">
+            <!--- https://codepen.io/ManasaGowlikar/pen/WBMdNM --->
+            <!--- https://codepen.io/pamcy/pen/mqEWPm --->
+            <!--- https://codepen.io/allanpooley/pen/QpzNxK --->
+            <ul>
+                {% for post in post_list %}
+                    <li>
+                        <div class="left_content">
+                            <h3>{{ post.start_date|date:"F Y" }}</h3>
+                        </div>
+                        <div class="right_content">
+                            <h2><a href={{ post.get_absolute_url }}>{{ post.place }}</a></h2>
+                            {% if post.place == 'Yamana Laboratory' %}
+                                <p>
+                                    Currently carrying out research on image captioning by combining attention and object detection models in encoder-decoder structure
+                                </p>
+                            {% elif post.place == 'Gangseo Big Data Contest' %}
+                                <p>
+                                    - Provided related keywords of Gangseo ward's social problems using cosine similarity of TF-IDF of all the lines that have been crawled from social networks and its sentiment classified into either positive or negative using LSTM model
+                                </p>
+                            {% elif post.place == 'Simo-Serra Laboratory' %}
+                                <p>
+                                    Achieved breakthrough F1 score of 0.72 using dilated version of ResNet in multi-label classification of instruments
+                                </p>
+                            {% elif post.place == 'MakeNew Corporation'%}
+                                <p>
+                                    - Statistical analysis of covid-19 cases in South Korea of year 2020<br>
+                                    - Keyword analysis of covid-19 news articles<br>
+                                </p>
+                            {% elif post.place == 'Forest Data Analysis and Visualization Contest' %}
+                                <p>
+                                    - Top 8th in the forest welfare data analysis and visualization contest held by Korean Forest Welfare Institute
+                                </p>
+                            {% elif post.place == 'Cisco Systems India' %}
+                                <p>
+                                    CISCO IT Talent Cloud <br>
+                                    Resume recommendations to various companies
+                                </p>
+                            {% elif post.place == 'Automated Crypto Trading Program' %}
+                                <p>
+                                    An automated cryptocurrency trading program using Upbit API
+                                </p>
+                            {% endif %}
+                            <span class="tags">
+                                <i class="fas fa-tags"></i>
+                                {% get_tags_for_object post as "tags" %}
+                                {% for tag in tags %}
+                                    <a class="tags" href="{% url 'experiences:tagged_list' tag.name %}">{{ tag.slug }}</a>
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </li>
+                {% endfor %}
+                <div style="clear:both;"></div>
+            </ul>
+        </section>
+    </div><!-- /.container -->
+
+
+    <script>
+        $(window).scroll(function() {
+            var windscroll = $(window).scrollTop();
+            if (windscroll >= 100) {
+                $('section').each(function(i) {
+                    // The number at the end of the next line is how pany pixels you from the top you want it to activate.
+                    if ($(this).position().top <= windscroll - 0) {
+                        $('.nav-link.active').removeClass('active');
+                        $('.nav-link').eq(i).addClass('active');
+                    }
+                });
+            } else {
+                $('.nav-link.active').removeClass('active');
+                $('.nav-link:first').addClass('active');
+            }
+        }).scroll();
+    </script>
+
+
+
+    <script type="text/javascript">
+        const data = {
+            labels: {{ tag_names|safe }},
+            datasets: [{
+                label: 'Tags Histogram',
+                data: {{ tag_values|safe }},
+                backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(255, 159, 64, 0.2)',
+                  'rgba(255, 205, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(201, 203, 207, 0.2)'
+                ],
+                borderColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(255, 159, 64)',
+                  'rgb(255, 205, 86)',
+                  'rgb(75, 192, 192)',
+                  'rgb(54, 162, 235)',
+                  'rgb(153, 102, 255)',
+                  'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(document.getElementById("myChart1"), {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: false,
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    enabled: true,
+                    mode: 'single',
+                    callbacks: {
+                        label: function(tooltipItems, data){
+                            return 'Occurences: ' + tooltipItems.yLabel;
+                        }
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Skills',
+                            fontSize: 15,
+                            fontFamily: 'times new roman',
+                        },
+                        ticks: {
+                           fontSize: 15,
+                           fontFamily: 'times new roman',
+                        },
+                        gridLines: {
+                           color: "rgba(0,0,0,0)",
+                        }
+                    }],
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'No. of Usage',
+                            fontSize: 15,
+                            fontFamily: 'times new roman',
+                        },
+                       ticks: {
+                           beginAtZero: true,
+                           fontSize: 15,
+                           fontFamily: 'times new roman',
+                           userCallback: function(label, index, labels){
+                               if (Math.floor(label) == label){
+                                   return label;
+                               }
+                           }
+                       },
+                        gridLines: {
+                           color: "rgba(0,0,0,0)",
+                        }
+                    }],
+                }
+            },
+        });
+    </script>
+
+{% endblock %}

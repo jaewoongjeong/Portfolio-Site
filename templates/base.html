@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% block django_load %}{% endblock %}
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" href="{% static 'j.svg' %}">
+    <title>{% block title %}Jaewoong JEONG{% endblock %}</title>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration-line: none;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        a:hover{
+            color: orange;
+        }
+
+        a.tags{
+            color: darkgrey;
+        }
+
+        a.tags:hover{
+            color: darkolivegreen;
+            text-decoration-line: none;
+        }
+
+        #navbarCollapse{
+            position: fixed;
+            right: 10%;
+        }
+
+        .vertical-nav {
+            position: fixed;
+            bottom: 0px;
+            right: 0;
+            width: 80px;
+            height: 100%;
+            overflow-y: auto;
+            padding-top: 10%;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    {% block extra-style %}{% endblock %}
+
+</head>
+
+<body>
+    <nav id="main-nav" class="navbar navbar-expand-md navbar-light fixed-top bg-light" style="font-family: 'Times New Roman'">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-5" href="/">Jaewoong JEONG</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-center float-md-end" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item mx-5">
+                        <a id="profile-link" class="nav-link profile-link" aria-controls="profile" href="/#profile">Profile</a>
+                    </li>
+                    <li class="nav-item mx-5">
+                        <a id="timeline-link" class="nav-link timeline-link" aria-controls="timeline" href="/#timeline">Timeline</a>
+                    </li>
+                    <li class="nav-item dropdown mx-5">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Experiences
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/yamana-laboratory/">Yamana Laboratory</a></li>
+                            <li><a class="dropdown-item" href="/simo-serra-laboratory/">Simo-Serra Laboratory</a></li>
+                            <li><a class="dropdown-item" href="/makenew-corporation/">MakeNew Corporation</a></li>
+                            <li><a class="dropdown-item" href="/cisco/">CISCO</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/gangseo-big-data-contest/">Gangseo Analysis Contest</a></li>
+                            <li><a class="dropdown-item" href="/forest-data-analysis-and-visualization-contest/">Forest Analysis Contest</a></li>
+                            <li><a class="dropdown-item" href="/automated-crypto-trading-program/">Automated Trader</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <ul class="navbar-nav mr-auto flex-column vertical-nav">
+            <li class="nav-item mx-2 my-3 btn">
+                <a class="nav-link" href="https://www.linkedin.com/in/jaewoong-jeong/" target="_blank">
+                    <i class="fab fa-linkedin fa-2x"></i>
+                </a>
+            </li>
+            <li class="nav-item mx-2 my-3 btn">
+                <a class="nav-link" href="https://www.facebook.com/jaewoongjeong99/" target="_blank">
+                    <i class="fab fa-facebook-square fa-2x"></i>
+                </a>
+            </li>
+            <li class="nav-item mx-2 my-3 btn">
+                <a class="nav-link" href="https://www.instagram.com/jaewoong_jng/" target="_blank">
+                    <i class="fab fa-instagram fa-2x"></i>
+                </a>
+            </li>
+            <li class="nav-item mx-2 my-3 btn">
+                <a class="nav-link" href="https://github.com/jaewoongjeong" target="_blank">
+                    <i class="fab fa-github-square fa-2x"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    {% block extra-script %}{% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    {% block content %}{% endblock %}
+
+
+    <script>
+        $(function (){
+            $(".nav-link").click(function(){
+               $('.nav-link').removeClass('active');
+               $(this).addClass('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

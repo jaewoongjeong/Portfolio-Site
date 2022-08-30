@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}#{{ tagname }}{% endblock %}
+
+{% block django_load %}
+    {% load taggit_templatetags2_tags %}
+{% endblock %}
+
+{% block extra-style %}
+    <style>
+        .exp-links{
+            padding-top: 60px;
+        }
+
+        div{
+            font-family: "Times New Roman";
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container-md p-5 my-5 exp-links">
+        <h1>#{{ tagname }}</h1>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Project</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Related Tags</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in post_list %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{{ post.get_absolute_url }}">{{ post.place }}</a>
+                        </th>
+                        <td>{{ post.start_date|date:"F Y" }}</td>
+                        <td>
+                            <i class="fas fa-tags fa-sm"></i>
+                            {% get_tags_for_object post as "tags" %}
+                            {% for tag in tags %}
+                                <a class="tags" href="{% url 'experiences:tagged_list' tag.name %}">{{ tag.slug }}</a>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

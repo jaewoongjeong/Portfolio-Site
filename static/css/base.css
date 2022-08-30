@@ -1,0 +1,44 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: "Times New Roman";
+}
+
+a{
+    color: inherit;
+    text-decoration-line: none;
+    font-weight: bold;
+    font-style: italic;
+}
+
+a:hover{
+    color: orange;
+}
+
+a.tags{
+    color: darkgrey;
+}
+
+a.tags:hover{
+    color: darkolivegreen;
+    text-decoration-line: none;
+}
+
+#navbarCollapse{
+    position: fixed;
+    right: 10%;
+}
+
+.vertical-nav {
+    position: fixed;
+    bottom: 0px;
+    right: 0;
+    width: 80px;
+    height: 100%;
+    overflow-y: auto;
+    padding-top: 10%;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
