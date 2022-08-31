@@ -212,7 +212,6 @@
                             {% endif %}
                             <span class="tags">
                                 <i class="fas fa-tags"></i>
-                                {% load taggit_templatetags2_tags %}
                                 {% get_tags_for_object post as "tags" %}
                                 {% for tag in tags %}
                                     <a class="tags" href="{% url 'experiences:tagged_list' tag.name %}">{{ tag.slug }}</a>
